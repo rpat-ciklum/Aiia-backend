@@ -89,9 +89,10 @@ app.get('/transactions', async (req, res) => {
     
     console.log(req);
     const accountID = req.query.accountID;
+    const pageSize = req.query.pageSize;
     let response;
     try {
-     response = await axios.get(`https://api-sandbox.aiia.eu/v1/accounts/${accountID}/transactions?pageSize=5`, { headers: {Authorization : req.headers.authorization}});
+     response = await axios.get(`https://api-sandbox.aiia.eu/v1/accounts/${accountID}/transactions?pageSize=${pageSize}`, { headers: {Authorization : req.headers.authorization}});
      res.send(JSON.parse(JSON.stringify(response.data)));
     }catch(ex) {
         console.log(ex);
@@ -132,6 +133,23 @@ app.post('/authorizepayment', async (req, res) => {
     }
    
    
+})
+
+app.get('/authorizationpaymentstatus', async (req, res) => {
+    
+    console.log(req);
+    const authorizationID = req.query.authorizationID;
+    const accountID = req.query.accountID;
+    let response;
+    try {
+     response = await axios.get(`https://api-sandbox.aiia.eu/v2/accounts/${accountID}/payment-authorizations/${authorizationID}`, { headers: {Authorization : req.headers.authorization}});
+     res.send(JSON.parse(JSON.stringify(response.data)));
+    }catch(ex) {
+        console.log(ex);
+        res.sendStatus(401).send(JSON.parse(JSON.stringify(response.data)));
+    }
+   
+    
 })
 
 
