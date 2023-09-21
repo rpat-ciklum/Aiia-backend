@@ -153,5 +153,86 @@ app.get('/authorizationpaymentstatus', async (req, res) => {
 })
 
 
+const basicAuth = {auth: {
+    username: "aiiatest-7ecb3dc0-311f-4645-9caa-cebef0fb3480",
+    password: "4cb8241390a610f101e8f5e345add2580977565b176116fa5249a1ddc05277d4"
+  }};
+
+/**
+ * payment link scenario
+ */
+//create Payment link
+app.post('/createpaymentlink', async (req, res) => {
+    
+    console.log(req);
+    // const accountID = req.query.accountID;
+    let response;
+    try {
+     response = await axios.post(`https://api-sandbox.aiia.eu/v2/payments/accept/links`, req.body, basicAuth);
+     res.send(JSON.parse(JSON.stringify(response.data)));
+    }catch(ex) {
+        console.log(ex);
+        res.sendStatus(401).send(JSON.parse(JSON.stringify(response.data)));
+    }
+   
+    
+})
+
+//getpaymentlinkstatus
+app.get('/getpaymentlinkstatus', async (req, res) => {
+    
+    console.log(req);
+    const paymentLinkId = req.query.paymentLinkId;
+    let response;
+    try {
+     response = await axios.get(`https://api-sandbox.aiia.eu/v2/payments/accept/links/${paymentLinkId}`, basicAuth);
+     res.send(JSON.parse(JSON.stringify(response.data)));
+    }catch(ex) {
+        console.log(ex);
+        res.sendStatus(401).send(JSON.parse(JSON.stringify(response.data)));
+    }
+   
+    
+})
+
+
+/**
+ * payments scenario
+ */
+//accepts payments
+app.post('/createacceptpayment', async (req, res) => {
+    
+    console.log(req);
+    // const accountID = req.query.accountID;
+    let response;
+    try {
+     response = await axios.post(`https://api-sandbox.aiia.eu/v2/payments/accept`, req.body, basicAuth);
+     res.send(JSON.parse(JSON.stringify(response.data)));
+    }catch(ex) {
+        console.log(ex);
+        res.sendStatus(401).send(JSON.parse(JSON.stringify(response.data)));
+    }
+   
+    
+})
+
+//getpaymentlinkstatus
+app.get('/getpaymentstatus', async (req, res) => {
+    
+    console.log(req);
+    const acceptPaymentId = req.query.acceptPaymentId;
+    let response;
+    try {
+     response = await axios.get(`https://api-sandbox.aiia.eu/v2/payments/accept/${acceptPaymentId}`, basicAuth);
+     res.send(JSON.parse(JSON.stringify(response.data)));
+    }catch(ex) {
+        console.log(ex);
+        res.sendStatus(401).send(JSON.parse(JSON.stringify(response.data)));
+    }
+   
+    
+})
+
+
 
 app.listen(PORT, () => console.log(`server stared on ${PORT}`));
